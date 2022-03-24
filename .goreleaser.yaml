@@ -1,0 +1,29 @@
+builds:
+  - id: issue4380
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+  - id: issue4380-builder
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    dir: builder
+    binary: issue4380-builder
+    
+
+gomod:
+  # Proxy a module from proxy.golang.org, making the builds verifiable.
+  # This will only be effective if running against a tag. Snapshots will ignore this setting.
+  # Notice: for this to work your `build.main` must be a package, not a `.go` file.
+  #
+  # Default is false.
+  proxy: true
+
+  # Sets the `-mod` flag value.
+  # Defaults to empty.
+  mod: mod
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
